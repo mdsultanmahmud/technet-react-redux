@@ -1,10 +1,11 @@
 import { cn } from '@/lib/utils';
 import { buttonVariants } from '@/components/ui/button';
 import { SignupForm } from '../components/SignUpForm';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import logo from '../assets/images/technet-logo-white.png';
 
 export default function Signup() {
+  const navigate = useNavigate()
   return (
     <>
       <div className="container relative hidden h-screen flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
@@ -26,7 +27,7 @@ export default function Signup() {
             }}
           />
           <div className="relative z-20 flex items-center text-lg font-medium">
-            <img className="h-8" src={logo} alt="" />
+            <img onClick={() => navigate("/")} className="h-8 cursor-pointer" src={logo} alt="" />
           </div>
           <div className="relative z-20 mt-auto">
             <blockquote className="space-y-2"></blockquote>
