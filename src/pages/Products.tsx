@@ -3,18 +3,23 @@ import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { Switch } from '@/components/ui/switch';
 import { useToast } from '@/components/ui/use-toast';
+import { useGetProductsQuery } from '@/redux/api/apiSlice';
 import { setPriceRange, toggleStatus } from '@/redux/feature/products/productSlice';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { IProduct } from '@/types/globalTypes';
-import { useEffect, useState } from 'react';
+import { Key, useEffect, useState } from 'react';
 
 export default function Products() {
-  const [data, setData] = useState<IProduct[]>([]);
-  useEffect(() => {
-    fetch('./data.json')
-      .then((res) => res.json())
-      .then((data) => setData(data));
-  }, []);
+  // const [data, setData] = useState<IProduct[]>([]);
+
+  // useEffect(() => {
+  //   fetch('./data.json')
+  //     .then((res) => res.json())
+  //     .then((data) => setData(data));
+  // }, []);
+
+
+  const { data, isLoading, error } = useGetProductsQuery(undefined)
 
   const { toast } = useToast();
 
@@ -24,17 +29,29 @@ export default function Products() {
     dispatch(setPriceRange(value[0]))
   };
 
+  
   let productsData;
 
   if (status) {
-    productsData = data.filter(
-      (item) => item.status === true && item.price < priceRange
+    console.log("hello world from first block");
+    console.table(data?.data);
+    
+    productsData = data?.data?.filter(
+      (item: { status: boolean; price: number; }) => item.status === true && item.price < priceRange
     );
   } else if (priceRange > 0) {
-    productsData = data.filter((item) => item.price < priceRange);
+    console.log("hello wrold from second block")
+    productsData = data?.data?.filter((item: { price: number; }) => item.price < priceRange);
   } else {
-    productsData = data;
+    productsData = data?.data 
+    console.log("hellow world");
   }
+  console.log("productsData", productsData);
+  
+  
+  // if(isLoading){
+  //   return <h1 className='text-3xl text-center font-bold'>Loading...</h1>
+  // }
 
   return (
     <div className="grid grid-cols-12 max-w-7xl mx-auto relative ">
@@ -61,7 +78,7 @@ export default function Products() {
         </div>
       </div>
       <div className="col-span-9 grid grid-cols-3 gap-10 pb-20">
-        {productsData?.map((product, index) => (
+        {productsData?.map((product: IProduct, index: Key | null | undefined) => (
           <ProductCard key={index} product={product} />
         ))}
       </div>
