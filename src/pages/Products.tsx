@@ -33,25 +33,19 @@ export default function Products() {
   let productsData;
 
   if (status) {
-    console.log("hello world from first block");
-    console.table(data?.data);
-    
     productsData = data?.data?.filter(
       (item: { status: boolean; price: number; }) => item.status === true && item.price < priceRange
     );
   } else if (priceRange > 0) {
-    console.log("hello wrold from second block")
     productsData = data?.data?.filter((item: { price: number; }) => item.price < priceRange);
   } else {
     productsData = data?.data 
-    console.log("hellow world");
   }
-  console.log("productsData", productsData);
+
   
-  
-  // if(isLoading){
-  //   return <h1 className='text-3xl text-center font-bold'>Loading...</h1>
-  // }
+  if(isLoading){
+    return <h1 className='text-3xl text-center font-bold'>Loading...</h1>
+  }
 
   return (
     <div className="grid grid-cols-12 max-w-7xl mx-auto relative ">
