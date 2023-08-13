@@ -1,6 +1,6 @@
 import ProductReview from '@/components/ProductReview';
 import { Button } from '@/components/ui/button';
-import { useSingleProductsQuery } from '@/redux/api/apiSlice';
+import { useSingleProductsQuery } from '@/redux/feature/products/productApi';
 import { JSXElementConstructor, Key, ReactElement, ReactFragment } from 'react';
 import { useParams } from 'react-router-dom';
 
@@ -27,7 +27,7 @@ export default function ProductDetails() {
           <Button>Add to cart</Button>
         </div>
       </div>
-      <ProductReview />
+      <ProductReview id = {id}/>
     </>
   );
 }
